@@ -1,0 +1,42 @@
+#include <bits/stdc++.h>
+using namespace std;
+int n,m,r;
+int main()
+{
+    freopen("sum3d.inp","r",stdin);
+    freopen("sum3d.out","w",stdout);
+
+    scanf("%d%d%d",&r,&n,&m);
+    long long f[r+1][n+1][m+1],g[n+1][m+1];
+
+    memset(g,0,sizeof(g));
+    memset(f,0,sizeof(f));
+    for(int k=1;k<=r;++k)
+    {
+        for(int i=1;i<=n;++i)
+        {
+            for(int j=1;j<=m;++j)
+            {
+                long long x;
+                scanf("%lld",&x);
+                g[i][j]=g[i-1][j]+g[i][j-1]-g[i-1][j-1]+x;
+            }
+        }
+
+        for(int i=1;i<=n;++i) for(int j=1;j<=m;++j)
+        f[k][i][j]=f[k-1][i][j]+g[i][j];
+    }
+
+    int q;
+    scanf("%d",&q);
+    while(q--)
+    {
+        int i1,i2,j1,j2,k1,k2;
+        scanf("%d%d%d%d%d%d",&k1,&i1,&j1,&k2,&i2,&j2);
+        printf("%lld\n",f[k2][i2][j2]
+                      -f[k2][i1-1][j2]+f[k1-1][i1-1][j2]
+                      -f[k2][i2][j1-1]+f[k1-1][i2][j1-1]
+                                      +f[k2][i1-1][j1-1]-f[k1-1][i1-1][j1-1]
+                      -f[k1-1][i2][j2]);
+    }
+}
